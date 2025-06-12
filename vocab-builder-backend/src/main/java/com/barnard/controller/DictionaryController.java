@@ -26,30 +26,37 @@ public class DictionaryController {
     @GetMapping(path = "/dictionary")
     public Word getDefinitions(@RequestParam String word) {
         Word result = new Word();
-        List<DictionaryDTO> response = dictionaryApiService.getDefinition(word);
+        try {
+            List<DictionaryDTO> response = dictionaryApiService.getDefinition(word);
 
-        result.setWord(word);
-        result.setMeanings(new ArrayList<>());
-        int meaningCount = 0;
-        for (DictionaryDTO dto : response) {
-            String phoneticTemp = null;
-            if (dto.getPhonetic() != null) {
-                phoneticTemp = dto.getPhonetic();
-            } else if (!dto.getPhonetics().isEmpty()) {
-                for (Phonetic phonetic : dto.getPhonetics()) {
-                    if (phonetic.getText() != null && !phonetic.getText().isEmpty()) {
-                        phoneticTemp = phonetic.getText();
-                        break;
+            result.setWord(word);
+            result.setMeanings(new ArrayList<>());
+            int meaningCount = 0;
+            for (DictionaryDTO dto : response) {
+                String phoneticTemp = null;
+                if (dto.getPhonetic() != null) {
+                    phoneticTemp = dto.getPhonetic();
+                } else if (!dto.getPhonetics().isEmpty()) {
+                    for (Phonetic phonetic : dto.getPhonetics()) {
+                        if (phonetic.getText() != null && !phonetic.getText().isEmpty()) {
+                            phoneticTemp = phonetic.getText();
+                            break;
+                        }
                     }
                 }
+                for (Meaning meaning : dto.getMeanings()) {
+                    meaning.setPhonetic(phoneticTemp);
+                    meaning.setMeaningId(meaningCount);
+                    meaningCount++;
+                    result.getMeanings().add(meaning);
+                }
             }
-            for (Meaning meaning : dto.getMeanings()) {
-                meaning.setPhonetic(phoneticTemp);
-                meaning.setMeaningId(meaningCount);
-                meaningCount++;
-                result.getMeanings().add(meaning);
-            }
+        } catch (Exception e) {
+            // Handle exceptions, possibly log them
+            System.err.println("Error fetching definitions: " + e.getMessage());
+            result.setMeanings(new ArrayList<>());
         }
+
 
         return result;
     }
