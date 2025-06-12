@@ -1,11 +1,12 @@
 BEGIN TRANSACTION;
 
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS words;
-DROP TABLE IF EXISTS meanings;
-DROP TABLE IF EXISTS synonyms;
-DROP TABLE IF EXISTS antonyms;
 DROP TABLE IF EXISTS definitions;
+DROP TABLE IF EXISTS antonyms;
+DROP TABLE IF EXISTS synonyms;
+DROP TABLE IF EXISTS meanings;
+DROP TABLE IF EXISTS words;
+DROP TABLE IF EXISTS users;
+
 
 CREATE TABLE users (
 	user_id SERIAL,
@@ -19,31 +20,31 @@ CREATE TABLE users (
 CREATE TABLE words (
     word_id SERIAL PRIMARY KEY,
     word varchar(50) NOT NULL,
-    phonetic varchar(50),
-    user_id int NOT NULL REFERENCES users(user_id),
+    user_id int NOT NULL REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE meanings (
     meaning_id SERIAL PRIMARY KEY,
-    word_id int NOT NULL REFERENCES words(word_id),
+    word_id int NOT NULL REFERENCES words(word_id) ON DELETE CASCADE,
     part_of_speech varchar(20) NOT NULL,
+    phonetic varchar(50)
 );
 
 CREATE TABLE synonyms (
     synonym_id SERIAL PRIMARY KEY,
-    meaning_id int NOT NULL REFERENCES meanings(meaning_id),
-    synonym_word varchar(50) NOT NULL,
+    meaning_id int NOT NULL REFERENCES meanings(meaning_id) ON DELETE CASCADE,
+    synonym_word varchar(50) NOT NULL
 );
 
 CREATE TABLE antonyms (
     antonym_id SERIAL PRIMARY KEY,
-    meaning_id int NOT NULL REFERENCES meanings(meaning_id),
-    antonym_word varchar(50) NOT NULL,
+    meaning_id int NOT NULL REFERENCES meanings(meaning_id) ON DELETE CASCADE,
+    antonym_word varchar(50) NOT NULL
 );
 
 CREATE TABLE definitions (
     definition_id SERIAL PRIMARY KEY,
-    meaning_id int NOT NULL REFERENCES meanings(meaning_id),
+    meaning_id int NOT NULL REFERENCES meanings(meaning_id) ON DELETE CASCADE,
     definition_text varchar(2000) NOT NULL,
     example_sentence varchar(2000) NOT NULL
 );

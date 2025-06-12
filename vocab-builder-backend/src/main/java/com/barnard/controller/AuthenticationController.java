@@ -65,6 +65,9 @@ public class AuthenticationController {
     public void register(@Valid @RequestBody RegisterUserDto newUser) {
         try {
 
+            String fixUsername = newUser.getUsername().toLowerCase();
+            newUser.setUsername(fixUsername);
+
             if (userDao.checkIfEmailIsUsed(newUser.getEmail())) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is already in use.");
             }

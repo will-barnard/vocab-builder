@@ -1,6 +1,8 @@
 package com.barnard.controller;
 
 import com.barnard.model.DictionaryDTO;
+import com.barnard.model.Meaning;
+import com.barnard.model.Phonetic;
 import com.barnard.model.Word;
 import com.barnard.service.DictionaryApiService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +24,34 @@ public class DictionaryController {
     private DictionaryApiService dictionaryApiService;
 
     @GetMapping(path = "/dictionary")
-    public List<Word> getDefinitions(@RequestParam String word) {
-        List<Word> words = new ArrayList<>();
+    public Word getDefinitions(@RequestParam String word) {
+        Word result = new Word();
         List<DictionaryDTO> response = dictionaryApiService.getDefinition(word);
 
+        result.setWord(word);
+        result.setMeanings(new ArrayList<>());
+        int meaningCount = 0;
         for (DictionaryDTO dto : response) {
-            words.add(dto.mapToWord());
+            String phoneticTemp = null;
+            if (dto.getPhonetic() != null) {
+                phoneticTemp = dto.getPhonetic();
+            } else if (!dto.getPhonetics().isEmpty()) {
+                for (Phonetic phonetic : dto.getPhonetics()) {
+                    if (phonetic.getText() != null && !phonetic.getText().isEmpty()) {
+                        phoneticTemp = phonetic.getText();
+                        break;
+                    }
+                }
+            }
+            for (Meaning meaning : dto.getMeanings()) {
+                meaning.setPhonetic(phoneticTemp);
+                meaning.setMeaningId(meaningCount);
+                meaningCount++;
+                result.getMeanings().add(meaning);
+            }
         }
 
-        return words;
+        return result;
     }
 
 }

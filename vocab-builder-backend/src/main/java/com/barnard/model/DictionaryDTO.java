@@ -5,25 +5,17 @@ import java.util.List;
 public class DictionaryDTO {
 
     private String word;
+    private String phonetic;
     private List<Phonetic> phonetics;
     private List<Meaning> meanings;
-    private License license;
     private List<String> sourceUrls;
-
-    private static class Phonetic {
-        private String text;
-        private String audio;
-        private String sourceUrl;
-        private License license;
-    }
-
-    public static class License {
-        private String name;
-        private String url;
-    }
 
     public String getWord() {
         return word;
+    }
+
+    public String getPhonetic() {
+        return phonetic;
     }
 
     public List<Phonetic> getPhonetics() {
@@ -34,10 +26,6 @@ public class DictionaryDTO {
         return meanings;
     }
 
-    public License getLicense() {
-        return license;
-    }
-
     public List<String> getSourceUrls() {
         return sourceUrls;
     }
@@ -45,7 +33,21 @@ public class DictionaryDTO {
     public Word mapToWord() {
         Word word = new Word();
         word.setWord(this.word);
-        word.setPhonetic(this.phonetics.get(0).text);
+
+        String phoneticTemp = null;
+        if (this.phonetic != null) {
+            phoneticTemp = this.phonetic;
+        } else if (!this.phonetics.isEmpty()) {
+            for (Phonetic phonetic : this.phonetics) {
+                if (phonetic.getText() != null && !phonetic.getText().isEmpty()) {
+                    phoneticTemp = phonetic.getText();
+                    break;
+                }
+            }
+        }
+        for (Meaning meaning : this.meanings) {
+            meaning.setPhonetic(phoneticTemp);
+        }
         word.setMeanings(this.meanings);
         return word;
     }

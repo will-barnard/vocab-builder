@@ -7,7 +7,6 @@ public class Word {
     private int userId;
     private int wordId;
     private String word;
-    private String phonetic;
     private List<Meaning> meanings;
 
     public String getWord() {
@@ -18,13 +17,6 @@ public class Word {
         this.word = word;
     }
 
-    public String getPhonetic() {
-        return phonetic;
-    }
-
-    public void setPhonetic(String phonetic) {
-        this.phonetic = phonetic;
-    }
 
     public List<Meaning> getMeanings() {
         return meanings;
