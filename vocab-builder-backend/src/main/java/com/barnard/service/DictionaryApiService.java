@@ -14,8 +14,15 @@ public class DictionaryApiService {
     private String apiUrl = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
     public List<DictionaryDTO> getDefinition(String word) {
-        String url = apiUrl + word;
-        DictionaryDTO[] response = restTemplate.getForObject(url, DictionaryDTO[].class);
+        DictionaryDTO[] response;
+        try {
+            String url = apiUrl + word;
+            response = restTemplate.getForObject(url, DictionaryDTO[].class);
+        } catch (Exception e) {
+            // Handle exceptions, possibly log them
+            System.err.println("Error fetching definitions: " + e.getMessage());
+            return null; // Return null or an empty list based on your error handling strategy
+        }
         return Arrays.asList(response);
     }
 }

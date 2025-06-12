@@ -28,7 +28,9 @@ public class DictionaryController {
         Word result = new Word();
         try {
             List<DictionaryDTO> response = dictionaryApiService.getDefinition(word);
-
+            if (response == null) {
+                return null;
+            }
             result.setWord(word);
             result.setMeanings(new ArrayList<>());
             int meaningCount = 0;
