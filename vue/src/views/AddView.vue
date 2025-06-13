@@ -1,7 +1,7 @@
 <template>
     <div class="form-container">
         <LoadingWidget v-show="push" />
-        <form v-on:submit.prevent="add" v-show="!push">
+        <form v-on:submit.prevent="add" v-on:keydown.enter.prevent v-show="!push">
         <h2>Add Word</h2>
         <!-- <div role="alert" v-if="registrationErrors">
             {{ registrationErrorMsg }}
@@ -30,10 +30,10 @@
         </div>
         
 
-        <div class="bottom-buttons">
+        <!-- <div class="bottom-buttons">
             <button type="submit" class="submit-button">Add to List</button>
-            <!-- <button type="button" @click="$router.push({name: 'add-manual'})">Add Manually</button> -->
-        </div>
+            <button type="button" @click="$router.push({name: 'add-manual'})">Add Manually</button>
+        </div> -->
         </form>
     
     </div>
@@ -59,6 +59,7 @@ export default {
         add() {
             if (this.dictResult) {
                 this.word.meanings = this.dictResult.meanings;
+                this.word.word = this.dictResult.word;
             }
             this.push = true;
             WordService.createWord(this.word)

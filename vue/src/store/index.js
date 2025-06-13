@@ -50,7 +50,6 @@ export function createStore(currentToken, currentUser) {
       },
       DELETE_WORD(state, id) {
         state.vocabList = state.vocabList.filter(word => word.wordId !== id);
-        console.log(state.vocabList)
       },
     },
   });
