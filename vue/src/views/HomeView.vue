@@ -13,9 +13,10 @@
       <h2>Welcome Back!</h2>
       <p>You are logged in as {{ $store.state.user.username }}.</p>
       <div class="generic-buttons">
+        <p @click="$router.push({name: 'add'})">Add Word</p>
         <p @click="$router.push({name: 'list'})">My List</p>
-        <p @click="$router.push({name: 'logout'})">Logout</p>
         <p @click="$router.push({name: 'about'})">Learn More</p>
+        <p @click="$router.push({name: 'logout'})">Logout</p>
       </div>
 
     </div>

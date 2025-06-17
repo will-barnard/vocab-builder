@@ -6,7 +6,6 @@
       <p v-show="$store.state.token === ''" @click="$router.push({name: 'register'})">Register</p>
       <p v-show="$store.state.token !== ''" @click="$router.push({name: 'list'})">My List</p>
       <p v-show="$store.state.token !== ''" @click="$router.push({name: 'add'})">Add Word</p>
-      <p v-show="$store.state.token !== ''" @click="$router.push({name: 'logout'})">Logout</p>
     </div>
     <TopBanner />
 
