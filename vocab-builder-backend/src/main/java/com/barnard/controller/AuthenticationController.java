@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import com.barnard.exception.DaoException;
 import com.barnard.model.*;
+import com.barnard.service.EmailService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +25,14 @@ public class AuthenticationController {
 
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    private UserDao userDao;
+    private final UserDao userDao;
+    private final EmailService emailService;
 
-    public AuthenticationController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder, UserDao userDao) {
+    public AuthenticationController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder, UserDao userDao, EmailService emailService) {
         this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.userDao = userDao;
+        this.emailService = emailService;
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
@@ -80,6 +83,8 @@ public class AuthenticationController {
             if (user == null) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User registration failed.");
             }
+            String email = "Username: " + newUser.getUsername() + " Email: " + newUser.getEmail();
+            emailService.sendEmail(new EmailParams("barnardwill@gmail.com", "New Vocab Builder User", email));
         } catch (DaoException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User registration failed.");
         }
