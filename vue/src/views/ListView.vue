@@ -33,7 +33,7 @@ export default {
                 this.list = this.$store.state.vocabList;
                 this.loaded = true;
             }
-        }, 20);
+        }, 500);
     }
 }
 </script>

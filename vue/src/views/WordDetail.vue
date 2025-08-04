@@ -36,7 +36,7 @@ export default {
     },
     data() {
         return {
-            show: true,
+            show: false,
             word: {}
         }
     },
@@ -44,6 +44,7 @@ export default {
         WordService.getWord(this.$route.params.id)
             .then(response => {
                 this.word = response.data;
+                this.show = true;
             })
             .catch(error => {
                 console.error("Error fetching word:", error);
