@@ -67,6 +67,7 @@ public class AuthenticationController {
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public void register(@Valid @RequestBody RegisterUserDto newUser) {
         try {
+            System.out.println("test");
 
             String fixUsername = newUser.getUsername().toLowerCase();
             newUser.setUsername(fixUsername);

@@ -1,6 +1,6 @@
 <template>
   <div id="vocab-builder">
-    <div id="nav" class="top-nav">
+    <div id="nav" class="top-nav" v-show="$store.state.token !== '' || ($store.state.token === '' && $route.name !== 'home')">
       <p @click="$router.push({name: 'home'})">Home</p>
       <p v-show="$store.state.token === ''" @click="$router.push({name: 'login'})">Login</p>
       <p v-show="$store.state.token === ''" @click="$router.push({name: 'register'})">Register</p>
@@ -10,6 +10,14 @@
     <TopBanner />
 
     <router-view />
+    <footer v-show="$store.state.token !== ''" class="app-footer">
+      <span @click="$router.push({name: 'logout'})" class="footer-link">Logout</span>
+      <span class="footer-separator">|</span>
+  
+      <span @click="goHome" class="footer-link" title="Home">
+        <i class="fa fa-home"></i>
+      </span>
+    </footer>
   </div>
 </template>
 
@@ -23,6 +31,17 @@ export default {
   created() {
     if (this.$store.state.token) {
       this.$store.commit('INITIALIZE_USER');
+    }
+  }
+  ,
+  methods: {
+    goHome() {
+      // Always route to home, even if already there
+      if (this.$route.name === 'home') {
+        this.$router.replace({ name: 'home' });
+      } else {
+        this.$router.push({ name: 'home' });
+      }
     }
   }
 
@@ -107,5 +126,36 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+}
+
+.app-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  color: var(--text-color, #333);
+  font-size: 1rem;
+  background: var(--form-background-color, #fff);
+  padding: 18px 0 18px 0;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
+  z-index: 1001;
+}
+.footer-link {
+  cursor: pointer;
+  color: var(--primary-color, #007bff);
+  text-decoration: underline;
+  margin: 0 5px;
+}
+.footer-link:hover {
+  text-decoration: none;
+}
+.footer-separator {
+  margin: 0 8px;
+  color: var(--form-border-color, #ccc);
+}
+.footer-link .fa-home {
+  font-size: 1.1em;
+  vertical-align: middle;
 }
 </style>

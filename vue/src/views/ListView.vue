@@ -14,7 +14,6 @@
         </div>
         <div v-if="$store.state.vocabList.length === 0 && $store.state.vocabListLoaded" class="empty-list">
             <p>You haven't added any words yet</p>
-            <p>Navigate to "Add Word" at the top to get started</p>
         </div>
     </div>
 </template>

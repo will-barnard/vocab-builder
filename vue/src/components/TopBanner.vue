@@ -1,5 +1,5 @@
 <template>
-    <div class="top-banner">
+    <div class="top-banner" v-show="$store.state.token != ''">
         <h1 @click="$router.push({name: 'home'})">Vocab Builder</h1>
     </div>
 </template>

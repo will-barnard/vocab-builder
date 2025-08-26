@@ -6,20 +6,18 @@
       <div class="generic-buttons">
         <p @click="$router.push({name: 'login'})">Login</p>
         <p @click="$router.push({name: 'register'})">Create Account</p>
-        <p @click="$router.push({name: 'about'})">Learn More</p>
       </div>
     </div>
     <div class="home-content" v-show="$store.state.token != ''">
-      <h2>Welcome Back!</h2>
-      <p>You are logged in as {{ $store.state.user.username }}.</p>
       <div class="generic-buttons">
         <p @click="$router.push({name: 'add'})">Add Word</p>
         <p @click="$router.push({name: 'list'})">My List</p>
-        <p @click="$router.push({name: 'about'})">Learn More</p>
-        <p @click="$router.push({name: 'logout'})">Logout</p>
       </div>
-
+      
     </div>
+    <footer class="home-footer">
+        <span @click="$router.push({name: 'about'})" class="footer-link">About</span>
+      </footer>
   </div>
 </template>
 
@@ -42,6 +40,27 @@ export default {
   border: 1px solid var(--form-border-color);
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.home-footer {
+  margin-top: 30px;
+  width: 100%;
+  text-align: center;
+  color: var(--text-color, #333);
+  font-size: 1rem;
+}
+.home-footer .footer-link {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.footer-link {
+  cursor: pointer;
+  color: var(--primary-color, #007bff);
+  text-decoration: underline;
+  margin: 0 5px;
+}
+.footer-link:hover {
+  text-decoration: none;
 }
 
 </style>
