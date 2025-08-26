@@ -2,10 +2,9 @@
   <div class="home">
     <div class="home-content" v-show="$store.state.token === ''">
       <h2>Welcome to Vocab Builder</h2>
-      <p>This is a simple application to help you build and manage your vocabulary.</p>
       <div class="generic-buttons">
-        <p @click="$router.push({name: 'login'})">Login</p>
         <p @click="$router.push({name: 'register'})">Create Account</p>
+        <p @click="$router.push({name: 'login'})">Login</p>
       </div>
     </div>
     <div class="home-content" v-show="$store.state.token != ''">
@@ -15,9 +14,6 @@
       </div>
       
     </div>
-    <footer class="home-footer">
-        <span @click="$router.push({name: 'about'})" class="footer-link">About</span>
-      </footer>
   </div>
 </template>
 

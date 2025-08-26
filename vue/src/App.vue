@@ -1,19 +1,15 @@
 <template>
   <div id="vocab-builder">
-    <div id="nav" class="top-nav" v-show="$store.state.token !== '' || ($store.state.token === '' && $route.name !== 'home')">
-      <p @click="$router.push({name: 'home'})">Home</p>
-      <p v-show="$store.state.token === ''" @click="$router.push({name: 'login'})">Login</p>
-      <p v-show="$store.state.token === ''" @click="$router.push({name: 'register'})">Register</p>
-      <p v-show="$store.state.token !== ''" @click="$router.push({name: 'list'})">My List</p>
-      <p v-show="$store.state.token !== ''" @click="$router.push({name: 'add'})">Add Word</p>
-    </div>
     <TopBanner />
 
     <router-view />
-    <footer v-show="$store.state.token !== ''" class="app-footer">
-      <span @click="$router.push({name: 'logout'})" class="footer-link">Logout</span>
-      <span class="footer-separator">|</span>
-  
+    <footer  class="app-footer">
+      <span v-if="$route.name !== 'about'" @click="$router.push({name: 'about'})" class="footer-link">About</span>
+      <span v-if="$route.name !== 'about'" class="footer-separator">|</span>
+      <template v-if="$store.state.token !== ''">
+        <span @click="$router.push({name: 'logout'})" class="footer-link">Logout</span>
+        <span v-if="$store.state.token !== ''" class="footer-separator">|</span>
+      </template>
       <span @click="goHome" class="footer-link" title="Home">
         <i class="fa fa-home"></i>
       </span>
@@ -86,30 +82,8 @@ export default {
   padding: 10px;
   border-radius: 5px;;
 }
-.top-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%; /* Ensure it spans the full width */
-  box-sizing: border-box; /* Include padding in width calculation */
-  z-index: 1000;
-  background-color: #263545;
-  color: white;
-  padding: 10px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  font-size: 1.2em;
-  font-weight: bold;
-}
-.top-nav p {
-  text-decoration: underline;
-  margin: 0px;
-}
 #vocab-builder {
-  padding-top: 60px; /* Adjust padding to account for fixed nav height */
+  padding-top: 20px; /* Reduced padding since no fixed nav */
 }
 .meaning {
     color: white;
@@ -133,11 +107,11 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  text-align: center;
+  text-align: center; /* Center align content */
   color: var(--text-color, #333);
   font-size: 1rem;
   background: var(--form-background-color, #fff);
-  padding: 18px 0 18px 0;
+  padding: 18px 0; /* Remove left padding */
   box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
   z-index: 1001;
 }
