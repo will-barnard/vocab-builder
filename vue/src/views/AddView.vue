@@ -7,7 +7,6 @@
             {{ registrationErrorMsg }}
         </div> -->
         <div class="form-input-group form-element">
-            <p>Word</p>
             <div class="top-element">
                 <input type="text" id="word" v-model="word.word" required autofocus />
                 <button type="button" @click="getDefinition">Get Definition</button>
