@@ -84,6 +84,7 @@ export default {
 }
 #vocab-builder {
   padding-top: 20px; /* Reduced padding since no fixed nav */
+  padding-bottom: 60px; /* Added buffer area to ensure content is viewable above the footer */
 }
 .meaning {
     color: white;
